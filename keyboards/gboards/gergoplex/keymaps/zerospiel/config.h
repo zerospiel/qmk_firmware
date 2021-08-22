@@ -1,0 +1,27 @@
+#pragma once
+
+#define IGNORE_MOD_TAP_INTERRUPT
+#define HOLD_ON_OTHER_KEY_PRESS
+// #define HOLD_ON_OTHER_KEY_PRESS_PER_KEY
+// #define PERMISSIVE_HOLD_PER_KEY
+#define TAPPING_FORCE_HOLD_PER_KEY
+
+#define TAPPING_TERM 200
+
+#define ONESHOT_TAP_TOGGLE 2
+#define ONESHOT_TIMEOUT    1000
+
+#define AUTO_SHIFT_TIMEOUT 140
+#define NO_AUTO_SHIFT_NUMERIC
+
+#define MOUSEKEY_INTERVAL            15
+#define MOUSEKEY_DELAY               10
+#define MOUSEKEY_TIME_TO_MAX         60
+#define MOUSEKEY_MAX_SPEED           11
+#define MOUSEKEY_WHEEL_TIME_TO_MAX   35
+#define MOUSEKEY_WHEEL_DELAY         50
+
+#define COMBO_TERM  60
+
+#undef DEBOUNCE
+#define DEBOUNCE 15

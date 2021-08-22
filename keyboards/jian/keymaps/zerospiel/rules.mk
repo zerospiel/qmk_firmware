@@ -1,5 +1,5 @@
 SWAP_HANDS_ENABLE = no
-EXTRAKEY_ENABLE = yes    # Audio control and System control
+EXTRAKEY_ENABLE = yes # Audio control and System control
 AUDIO_ENABLE = no
 AUTO_SHIFT_ENABLE = no
 CONSOLE_ENABLE = no
@@ -10,5 +10,8 @@ PHYSICAL_LEDS_ENABLE = no
 ALT_LAYOUTS_ENABLE = no
 STENO_ENABLE = no
 COMBO_ENABLE = yes
+BACKLIGHT_ENABLE = no
+PHYSICAL_LEDS_ENABLE = no
 
 DEBOUNCE_TYPE?= sym_defer_g
+LTO_ENABLE=on

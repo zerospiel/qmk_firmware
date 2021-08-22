@@ -36,5 +36,5 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define MOUSEKEY_WHEEL_TIME_TO_MAX   35
 #define MOUSEKEY_WHEEL_DELAY         50
 
-#define COMBO_TERM  300
+#define COMBO_TERM  60
 #define COMBO_COUNT 3
