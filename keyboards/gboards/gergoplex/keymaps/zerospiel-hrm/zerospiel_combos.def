@@ -1,0 +1,2 @@
+COMB(weEsc, KC_ESC, KC_W, KC_E)
+COMB(fgPaste, LGUI(KC_V), LGUI_T(KC_F), KC_G)

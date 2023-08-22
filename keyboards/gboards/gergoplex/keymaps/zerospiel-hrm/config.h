@@ -13,3 +13,6 @@
 #define MOUSEKEY_WHEEL_DELAY         50
 
 #define COMBO_TERM  50
+
+#undef DEBOUNCE
+#define DEBOUNCE 15

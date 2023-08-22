@@ -1,7 +1,5 @@
 #include QMK_KEYBOARD_H
 
-#include "g/keymap_combo.h"
-
 #include "oneshot.h"
 #include "swapper.h"
 
@@ -35,6 +33,15 @@ enum keycodes {
     SW_CTAB, // Switch to next tab (ctl-tab)
 };
 
+// Combos
+const uint16_t PROGMEM wcEsc[] = {KC_W, KC_E, COMBO_END};
+const uint16_t PROGMEM klGL[] = {KC_H, KC_J, COMBO_END};
+combo_t key_combos[] = {
+    COMBO(wcEsc, KC_ESC),
+    COMBO(klGL, LGUI(KC_J)),
+};
+// Combos
+
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [DEF] = LAYOUT_split_3x5_3(
@@ -45,17 +52,17 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
 
     [SYM] = LAYOUT_split_3x5_3(
-        KC_DQT,  KC_MINS, KC_LBRC, KC_LPRN, KC_PLUS,       KC_CIRC, KC_RPRN, KC_RBRC, KC_AMPR, KC_ASTR,
-        KC_EXLM, KC_AT,   KC_HASH, KC_DLR,  KC_PERC,       KC_GRV,  OS_CMD,  OS_ALT,  OS_CTRL, OS_SHFT,
-        KC_QUOT, KC_LT,   KC_LCBR, KC_BSLS, KC_PIPE,       KC_SCLN, KC_GT,   KC_RCBR, KC_COLN, KC_EQL,
-                          XXXXXXX, _______, _______,       _______, _______, SW_LANG
+        KC_EXLM, KC_AT,   KC_HASH, KC_DLR,  KC_PERC,       KC_CIRC, KC_RPRN, KC_RBRC, KC_AMPR, KC_ASTR,
+        KC_DQT,  KC_MINS, KC_LBRC, KC_LPRN, KC_PLUS,       KC_GRV,  OS_CMD,  OS_ALT,  OS_CTRL, OS_SHFT,
+        KC_QUOT, KC_UNDS, KC_LCBR, KC_LT,   KC_BSLS,       KC_QUES, KC_GT,   KC_RCBR, KC_COLN, KC_EQL,
+                          XXXXXXX, _______, _______,       _______, _______, XXXXXXX
     ),
 
     [NAV] = LAYOUT_split_3x5_3(
-        KC_TAB,  XXXXXXX, SW_WIN,  SW_CTAB, KC_VOLU,       KC_TILD, ALTBSPC, CMDBSPC, XXXXXXX,  KC_DEL,
+        KC_TAB,  SW_LANG, SW_WIN,  SW_CTAB, KC_VOLU,       KC_TILD, ALTBSPC, CMDBSPC, KC_MUTE,  KC_DEL,
         OS_SHFT, OS_CTRL, OS_ALT,  OS_CMD,  KC_VOLD,       KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT,  KC_BSPC,
         CMDZ,    CMDX,    CMDC,    CMDV,    KC_MPLY,       CW_TOGG, KC_MPRV, KC_MNXT, LA_EXTRA, KC_ENT,
-                          SW_LANG, _______, _______,       _______, _______, XXXXXXX
+                          XXXXXXX, _______, _______,       _______, _______, XXXXXXX
     ),
 
     [NUM] = LAYOUT_split_3x5_3(
@@ -68,11 +75,31 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [EXTRA] = LAYOUT_split_3x5_3(
         _______,  KC_WH_D, KC_MS_U,  KC_WH_U, _______,       KC_BRIU, _______, _______, _______,  QK_RBT,
         _______,  KC_MS_L, KC_MS_D,  KC_MS_R, _______,       KC_BRID, _______, _______, _______,  _______,
-        _______,  KC_BTN1, KC_BTN3,  KC_BTN2, _______,       _______, KC_MUTE, _______, LA_EXTRA, _______,
+        _______,  KC_BTN1, KC_BTN3,  KC_BTN2, _______,       _______, _______, _______, LA_EXTRA, _______,
                             XXXXXXX, _______, _______,       _______, _______, XXXXXXX
     ),
 
 };
+
+bool caps_word_press_user(uint16_t keycode) {
+  switch (keycode) {
+    // Keycodes that continue Caps Word, with shift applied.
+    case KC_A ... KC_Z:
+      add_weak_mods(MOD_BIT(KC_LSFT));  // Apply shift to the next key.
+      return true;
+
+    // Keycodes that continue Caps Word, without shifting.
+    case KC_1 ... KC_0:
+    case KC_MINS:
+    case KC_BSPC:
+    case KC_DEL:
+    case KC_UNDS:
+      return true;
+
+    default:
+      return false;  // Deactivate Caps Word.
+  }
+}
 
 bool is_oneshot_cancel_key(uint16_t keycode) {
     switch (keycode) {

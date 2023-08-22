@@ -9,49 +9,25 @@ void update_oneshot(
 ) {
     if (keycode == trigger) {
         if (record->event.pressed) {
-            // Trigger keydown
             if (*state == os_up_unqueued) {
                 register_code(mod);
+                *state = os_down_unused;
             }
-            *state = os_down_unused;
         } else {
-            // Trigger keyup
-            switch (*state) {
-            case os_down_unused:
-                // If we didn't use the mod while trigger was held, queue it.
+            if (*state == os_down_unused) {
                 *state = os_up_queued;
-                break;
-            case os_down_used:
-                // If we did use the mod while trigger was held, unregister it.
-                *state = os_up_unqueued;
-                unregister_code(mod);
-                break;
-            default:
-                break;
-            }
-        }
-    } else {
-        if (record->event.pressed) {
-            if (is_oneshot_cancel_key(keycode) && *state != os_up_unqueued) {
-                // Cancel oneshot on designated cancel keydown.
+            } else if (*state == os_down_used) {
                 *state = os_up_unqueued;
                 unregister_code(mod);
             }
-        } else {
-            if (!is_oneshot_ignored_key(keycode)) {
-                // On non-ignored keyup, consider the oneshot used.
-                switch (*state) {
-                case os_down_unused:
-                    *state = os_down_used;
-                    break;
-                case os_up_queued:
-                    *state = os_up_unqueued;
-                    unregister_code(mod);
-                    break;
-                default:
-                    break;
-                }
-            }
         }
+    } else if (!record->event.pressed && *state == os_down_unused && !is_oneshot_ignored_key(keycode)) {
+        *state = os_down_used;
+    } else if (!record->event.pressed && *state == os_up_queued && !is_oneshot_ignored_key(keycode)) {
+        *state = os_up_unqueued;
+        unregister_code(mod);
+    } else if (record->event.pressed && is_oneshot_cancel_key(keycode) && *state != os_up_unqueued) {
+        *state = os_up_unqueued;
+        unregister_code(mod);
     }
 }
