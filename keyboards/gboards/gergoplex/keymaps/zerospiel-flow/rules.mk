@@ -14,7 +14,7 @@ ALT_LAYOUTS_ENABLE 		= no
 STENO_ENABLE			= no
 BACKLIGHT_ENABLE 	 	= no
 PHYSICAL_LEDS_ENABLE 	= no
-CAPS_WORD_ENABLE        = yes
+CAPS_WORD_ENABLE        = no
 
 DEBOUNCE_TYPE 			= sym_defer_g
 
